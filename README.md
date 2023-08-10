@@ -2,8 +2,7 @@
 
 **\_ app/page.tsx **\_
 \_Import cả hai client components và server components và bên trong một Server Components
-`
-import Contact from './contact/page'
+`import Contact from './contact/page'
 import About from './about/page'
 export default function Home() {
 return (
@@ -14,8 +13,7 @@ return (
 <About />
 </main>
 );
-}
-`
+}`
 
 **\_ contact/page.tsx **\_
 `"use client";
