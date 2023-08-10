@@ -1,34 +1,202 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Composing Client and Server Components
 
-## Getting Started
+**\_ app/page.tsx **\_
+\_Import cả hai client components và server components và bên trong một Server Components
+`
+import Contact from './contact/page'
+import About from './about/page'
+export default function Home() {
+return (
 
-First, run the development server:
+<main>
+<h1>Home</h1>
+<Contact />
+<About />
+</main>
+);
+}
+`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+**\_ contact/page.tsx **\_
+`"use client";
+export default function Contact() {
+return <h1>Contact</h1>;
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+}`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**\_ about/page.tsx **\_
+`export default function About() {
+return <h1>About</h1>;
+}`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Unsupported Pattern: Importing Server Components into Client Components (Using Props)
 
-## Learn More
+\_ Có thể truyền server component vào client componet bằng cách sử dụng props hoặc child
+**\_ contact/page.tsx **\_
+`"use client";
+export default function Contact({
+children,
+}: {
+children: React.ReactNode
+}) {
+return <div>
 
-To learn more about Next.js, take a look at the following resources:
+<h1>Contact</h1>;
+    {children}
+</div> 
+}`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**\_ about/page.tsx **\_
+`export default function About() {
+return <h1>About</h1>;
+}`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**\_ app/page.tsx **\_
 
-## Deploy on Vercel
+`
+import Contact from './contact/page'
+import About from './about/page'
+export default function Home() {
+return (
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<main>
+<h1>Home</h1>
+<Contact />
+<About />
+</Contact >
+</main>
+);
+}
+`
+## Passing props from Server to Client Components
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**\_ contact/page.tsx **\_
+`
+"use client";
+export default function Contact({
+data,
+}: {
+children: React.ReactNode
+}) {
+return <div>
+
+<h1>Contact</h1>;
+  <p>{data}</p>
+</div> 
+}
+`
+
+**\_ about/page.tsx **\_
+`export default function About() {
+return <h1>About</h1>;
+}`
+**\_ app/page.tsx **\_
+
+`
+import Contact from './contact/page'
+import About from './about/page'
+export default function Home() {
+const renderData= 'render data';
+return (
+
+<main>
+<h1>Home</h1>
+<Contact props={renderData}/>
+<About />
+</Contact >
+</main>
+);
+}
+`
+
+## Routing
+
+**\_ contact/page.tsx **\_
+
+export default function Contact () {
+return <h1>Contact</h1>
+}
+**\_ about/page.tsx **\_
+
+export default function About () {
+return <h1>About</h1>
+}
+
+**\_ app/page.tsx **\_
+
+`
+import Link from 'next/link';
+
+export default function App() {
+return (
+
+<Link href="/about">
+<p>About</p>
+</Link>
+<Link href="/contact">
+<p>Contact</p>
+</Link>
+);
+}
+
+`
+
+## Routes Groups
+
+**\_ Cấu trúc thư mục **\_
+
+- app
+  - about
+    - page.tsx
+  - contact
+    - page.tsx
+    - me
+      - page.tsx
+  - page.tsx
+
+**\_ app/page.tsx **\_
+
+`
+import Link from 'next/link';
+
+export default function App() {
+return (
+
+<Link href="/about">
+<p>About</p>
+</Link>
+<Link href="/contact/me">
+<p>Me</p>
+</Link>
+);
+}
+`
+## Dynamic Routes
+
+**\_ Cấu trúc thư mục **\_
+
+- app
+  - about
+    - page.tsx
+  - contact
+    - page.tsx
+    - me
+      - page.tsx
+      - [meId]
+        - page.tsx
+  - page.tsx
+    `
+    import Link from 'next/link';
+
+export default function App() {
+return (
+
+<Link href="/about">
+<p>About</p>
+</Link>
+<Link href="/contact/[meId]/">
+<p>Me Id</p>
+</Link>
+);
+}
+`
