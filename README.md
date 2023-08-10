@@ -1,7 +1,7 @@
 ## Composing Client and Server Components
 
+- Import cả hai client components và server components và bên trong một Server Components
 **\_ app/page.tsx **\_
-\_Import cả hai client components và server components và bên trong một Server Components
 ```
 import Contact from './contact/page'
 import About from './about/page'
@@ -35,7 +35,7 @@ return <h1>About</h1>;
 
 ## Unsupported Pattern: Importing Server Components into Client Components (Using Props)
 
-\_ Có thể truyền server component vào client componet bằng cách sử dụng props hoặc child
+- Có thể truyền server component vào client componet bằng cách sử dụng props hoặc child
 **\_ contact/page.tsx **\_
 ```
 "use client";
